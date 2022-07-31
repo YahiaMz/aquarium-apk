@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="currentCategory"
+            type="com.aplication.aquaruim.models.Category" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:id="@+id/category_ItemCL"
+        android:shadowColor="@color/primaryOrange"
+        android:shadowRadius="12">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imageCl"
+            android:padding="6dp"
+            android:layout_width="wrap_content"
+            android:background="@drawable/cateogry_item_bg"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/category_Item_image"
+                android:layout_width="@dimen/cateogryItemImageSize"
+                android:layout_height="@dimen/cateogryItemImageSize"
+                android:layout_margin="12sp"
+                android:scaleType="fitXY"
+                android:src="@drawable/pizza"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:textSize="14sp"
+                android:text="@{currentCategory.name , default = `category`}"
+                app:layout_constraintLeft_toLeftOf="@id/imageCl"
+                app:layout_constraintRight_toRightOf="@id/imageCl"
+                app:layout_constraintTop_toBottomOf="@id/imageCl" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

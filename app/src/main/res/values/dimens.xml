@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_fragment_bg_border_radius">32dp</dimen>
+    <dimen name="c_bottom_nb_icon_size">32dp</dimen>
+    <dimen name="bottom_bottom_nb_padding">12dp</dimen>
+    <dimen name="bottom_top_nb_padding">14dp</dimen>
+    <dimen name="bottom_navigation_item_padding_vertical">17dp</dimen>
+    <dimen name="icon_size_width">33dp</dimen>
+    <dimen name="icon_size_heigth">30dp</dimen>
+    <dimen name="buttons_rounding_radius">16dp</dimen>
+    <dimen name="tapped_button_padding_vertical">14dp</dimen>
+    <dimen name="cateogryItemImageSize">33dp</dimen>
+    <dimen name="food_image_size">140dp</dimen>
+    <dimen name="searchIconSize">24dp</dimen>
+    <dimen name="likeProductIconSize">20dp</dimen>
+    <dimen name="food_item_container_border_radius">24dp</dimen>
+    <dimen name="margin_bitween_cartitem_texts">4dp</dimen>
+    <dimen name="cartItemImageSize">96dp</dimen>
+    <dimen name="change_quantity_btns_width">42dp</dimen>
+    <dimen name="checkout_icon_size">20dp</dimen>
+    <dimen name="state_button_size">24dp</dimen>
+    <dimen name="state_line_height">3dp</dimen>
+    <dimen name="toast_border">16dp</dimen>
+    <dimen name="toast_icon_size">24dp</dimen>
+    <dimen name="sizes_text_size">14sp</dimen>
+    <dimen name="size_text_corner_raduis">10dp</dimen>
+    <dimen name="margin_bitween_checkout_items">18dp</dimen>
+    <dimen name="labels_in_checkout_text_size">20sp</dimen>
+    <dimen name="edit_texts_in_checkout_padding_vertical">14dp</dimen>
+    <dimen name="order_info_item_margin">2dp</dimen>
+    <dimen name="margin_bitween_label_and_edit_text_size">8dp</dimen>
+    <dimen name="orderItemImageSize">64dp</dimen>
+    <dimen name="order_item_container_margin_bitween_Items">8dp</dimen>
+    <dimen name="layouts_in_orderItemMargin">12dp</dimen>
+    <dimen name="orderItemImageHeight">48dp</dimen>
+    <dimen name="labels_in_order_textSize">16sp</dimen>
+    <dimen name="sizes_in_details_font_size">16sp</dimen>
+    <dimen name="p8dp">10dp</dimen>
+    <dimen name="p0dp">0dp</dimen>
+    <dimen name="m16dp">20dp</dimen>
+    <dimen name="sml_paddin_vertical">8dp</dimen>
+    <dimen name="statusCircleSize">20dp</dimen>
+    <dimen name="line_track_status_height">2dp</dimen>
+    <dimen name="currentStatusCircleSize">48dp</dimen>
+
+</resources>

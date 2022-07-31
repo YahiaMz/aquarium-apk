@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cFood"
+            type="com.aplication.aquaruim.models.Food" />
+
+    </data>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="5dp"
+            android:background="@drawable/food_item_container_bg"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/likeFoodButton"
+                android:layout_width="@dimen/likeProductIconSize"
+                android:layout_height="@dimen/likeProductIconSize"
+                android:src="@{cFood.isLiked ? @drawable/ic_heart_filled : @drawable/ic_heart_selected , default = @drawable/ic_heart_selected}"
+                android:paddingVertical="1dp"
+                android:scaleType="fitXY"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/favourite_food_item_imageView" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/food_item_imageView"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="1"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:padding="16dp"
+                bind:foodImage="@{cFood.imageUrl}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/foodNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="@{cFood.name}"
+                android:textColor="@color/TextColor"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="@id/food_item_imageView"
+                app:layout_constraintRight_toRightOf="@id/food_item_imageView"
+                app:layout_constraintTop_toBottomOf="@id/food_item_imageView" />
+
+            <TextView
+                android:id="@+id/foodItemPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="start"
+                android:text="@{ cFood.sizes.size() == 0 ? Integer.toString(cFood.price) + ` DA` : Integer.toString(cFood.sizes.get(0).sizePrice) + `DA` }"
+                android:textColor="@color/primaryOrange"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginRight="4dp"
+                app:layout_constraintLeft_toLeftOf="@id/food_item_imageView"
+                app:layout_constraintRight_toLeftOf="@id/addOneToCartBtn"
+                app:layout_constraintTop_toBottomOf="@id/foodNameTextView"
+                app:layout_constraintBottom_toBottomOf="@id/addOneToCartBtn"
+                 />
+
+            <ImageView
+                android:id="@+id/addOneToCartBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/add_rounded_button_bg"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_plus"
+                app:layout_constraintTop_toBottomOf="@id/foodNameTextView"
+                app:layout_constraintRight_toRightOf="parent"
+
+                 />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</layout>

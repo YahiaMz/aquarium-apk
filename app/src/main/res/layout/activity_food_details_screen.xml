@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+ <variable
+     name="foodSizeIndex"
+     type="Integer" />
+
+
+        <variable
+            name="food"
+            type="com.aplication.aquaruim.models.Food" />
+
+<variable
+    name="quantity"
+    type="Integer" />
+
+        <import type="android.view.View" />
+
+
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:paddingHorizontal="8dp"
+        tools:context=".views.activities.FoodDetailsScreen"
+        android:background="@color/tooLightOrange"
+        >
+
+
+        <ImageButton
+            android:id="@+id/backFromDetails"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back"
+            />
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="2dp"
+            android:padding="@{foodSizeIndex == 0 ? @dimen/m16dp :  foodSizeIndex == 1 ? @dimen/p8dp :  @dimen/p0dp }"
+            android:src="@drawable/pizza_image"
+            android:scaleType="fitXY"
+            app:layout_constraintWidth_percent=".63"
+            app:layout_constraintTop_toBottomOf="@id/backFromDetails"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintDimensionRatio="11:10"
+            android:id="@+id/imageOfPizzaDetails"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="0dp"
+            android:paddingTop="12dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/screen_details_bottom_cl_bg"
+            app:layout_constraintTop_toBottomOf="@id/imageOfPizzaDetails"
+            android:paddingHorizontal="16dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="28sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="8dp"
+                android:id="@+id/foodNameInDetailsScreen"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@{food.name}"
+                android:textColor="@color/TextColor"
+                android:textStyle="bold"
+                />
+
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutCQTP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/foodNameInDetailsScreen"
+                android:layout_marginTop="8dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/changeQuantityInDetailsScreenLayout"
+                    android:paddingHorizontal="4dp"
+                    android:background="@drawable/rounded_button_bg_r14"
+                    android:backgroundTint="@color/AntiFlashWhite"
+                    android:layout_width="wrap_content"
+                    android:paddingVertical="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal"
+                    >
+                    <ImageButton
+
+                        android:layout_width="32dp"
+                        android:padding="5dp"
+                        android:alpha="@{quantity == 1 ? (Float)0.4f : (Float)1f}"
+                        android:scaleType="fitXY"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_minus_round"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/decreaseQuantityButton"
+                        />
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="32dp"
+                        android:text="@{(quantity &lt; 10) ? `0`+Integer.toString(quantity) : Integer.toString(quantity)}"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:paddingTop="2dp"
+                        android:paddingRight="2dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/san_francisco_font"
+                        android:textSize="15sp"
+                        android:textColor="@color/mBlack"
+                        android:textStyle="bold"
+                        android:id="@+id/quantityInDetailScreen"
+                        />
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:padding="6dp"
+                        android:scaleType="fitXY"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_plus_grey"
+                        android:id="@+id/increaseQuantityButton"
+                        />
+
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/changeQuantityInDetailsScreenLayout"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:gravity="center_vertical"
+                    android:text="@{food.sizes.size() == 0 ? Integer.toString(food.price * quantity) + ` DA` : Integer.toString(food.sizes.get(foodSizeIndex).sizePrice * quantity) + ` DA`}"
+                    android:textColor="@color/primaryOrange"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/sizesLabel"
+                android:layout_width="0dp"
+                android:layout_marginTop="4dp"
+                android:text="Size"
+                android:visibility="@{food.sizes.size == 0 ? View.GONE : View.VISIBLE }"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:fontFamily="@font/san_francisco_font"
+                android:textColor="@color/TextColor"
+                android:gravity="right"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/relativeLayoutCQTP"
+/>
+            <LinearLayout
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="4dp"
+                android:visibility="@{food.sizes.size == 0 ? View.GONE : View.VISIBLE }"
+                android:gravity="center"
+                android:background="@drawable/rounded_button_bg_r14"
+                android:backgroundTint="@color/AntiFlashWhite"
+                android:id="@+id/sizesLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/sizesLabel"
+                android:layout_marginTop="2dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="small"
+                    android:id="@+id/smallTvButton"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:backgroundTint="@{foodSizeIndex == 0 ? @color/primaryOrange : @android:color/transparent , default =@color/primaryOrange }"
+                    android:background="@drawable/rounded_button_bg_r12"
+                    android:gravity="center"
+                    android:textColor="@{foodSizeIndex == 0 ? @color/white : @color/mBlack  , default=@color/white }"
+                    android:paddingVertical="@dimen/sml_paddin_vertical"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Medium"
+                    android:id="@+id/mediumTvButton"
+                    android:layout_marginHorizontal="4dp"
+                    android:textSize="@dimen/sizes_in_details_font_size"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:backgroundTint="@{foodSizeIndex == 1 ? @color/primaryOrange : @android:color/transparent , default =@android:color/transparent }"
+                    android:background="@drawable/rounded_button_bg_r12"
+                    android:gravity="center"
+                    android:textColor="@{foodSizeIndex == 1 ? @color/white : @color/mBlack  , default=@color/mBlack }"
+                    android:paddingVertical="@dimen/sml_paddin_vertical"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Large"
+                    android:textSize="@dimen/sizes_in_details_font_size"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:id="@+id/largeTvButton"
+                    android:backgroundTint="@{foodSizeIndex == 2 ? @color/primaryOrange : @android:color/transparent , default =@android:color/transparent }"
+                    android:background="@drawable/rounded_button_bg_r12"
+                    android:gravity="center"
+                    android:textColor="@{foodSizeIndex == 2 ? @color/white : @color/mBlack  , default=@color/mBlack }"
+                    android:paddingVertical="@dimen/sml_paddin_vertical"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/descriptionLabel"
+                android:layout_width="0dp"
+                android:layout_marginTop="16dp"
+                android:text="Description"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:fontFamily="@font/san_francisco_font"
+                android:textColor="@color/TextColor"
+                android:gravity="right"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/sizesLinearLayout"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/descriptionLabel"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/likeInDetailScreen"
+                android:layout_marginTop="4dp"
+android:layout_marginBottom="8dp"
+
+                android:id="@+id/descriptionTv"
+                android:layout_marginHorizontal="6dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@string/loremIspumText"
+                android:textColor="@color/TextColor"
+                />
+
+            <ImageButton
+                android:id="@+id/likeInDetailScreen"
+                android:layout_width="50dp"
+                android:layout_height="48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@drawable/rounded_button_bg_r14"
+                android:padding="10dp"
+                android:backgroundTint="#20FF0000"
+                android:src="@{food.isLiked ? @drawable/ic_heart_filled : @drawable/ic_heart_selected , default = @drawable/ic_heart_selected}"
+                android:scaleType="fitXY"
+                android:layout_marginBottom="12dp"
+                />
+
+            <Button
+                android:id="@+id/addToCartFromDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                app:layout_constraintTop_toTopOf="@id/likeInDetailScreen"
+                app:layout_constraintBottom_toBottomOf="@id/likeInDetailScreen"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/likeInDetailScreen"
+                android:layout_marginLeft="12dp"
+                android:text="@string/add_to_cart"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/primaryOrange"
+                android:background="@drawable/rounded_button_bg_r14"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

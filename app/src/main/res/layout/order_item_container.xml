@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+    <variable
+        name="orderItem"
+        type="com.aplication.aquaruim.models.OrderItem" />
+
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:paddingVertical="4dp"
+        android:paddingHorizontal="4dp"
+        android:background="@drawable/order_item_image_bg"
+        android:layout_height="wrap_content">
+
+      <ImageButton
+
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintLeft_toLeftOf="parent"
+          android:layout_marginHorizontal="20dp"
+          android:id="@+id/orderItemImage"
+          android:layout_width="@dimen/orderItemImageSize"
+          android:layout_height="@dimen/orderItemImageHeight"
+          android:src="@drawable/pizza_image"
+          android:scaleType="centerInside"
+          android:background="@android:color/transparent"
+          />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orderItemImage"
+            android:textColor="@color/TextColor"
+
+            android:text="@{orderItem.size !=  null ? orderItem.foodName +` (`+ orderItem.size.sizeName+`)` : orderItem.foodName}"
+            android:maxLines="1"
+            android:ellipsize="start"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:fontFamily="@font/san_francisco_font"
+            />
+
+
+        <TextView
+            android:id="@+id/orderItemQuantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/quantity_text_view_bg"
+            android:fontFamily="@font/san_francisco_font"
+            android:gravity="center"
+
+            android:letterSpacing=".12"
+            android:paddingLeft="3dp"
+            android:paddingRight="4dp"
+            android:text="@{` x`+orderItem.quantity , default = `x1`}"
+            android:textColor="@color/TextColor"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/orderItemImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

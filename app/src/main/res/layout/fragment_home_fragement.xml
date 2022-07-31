@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="categoriesAdapter"
+            type="com.aplication.aquaruim.adapters.CategoriesAdapter" />
+
+        <variable
+            name="foodsAdapter"
+            type="com.aplication.aquaruim.adapters.FoodsAdapter" />
+
+        <variable
+            name="homeViewModel"
+            type="com.aplication.aquaruim.viewmodels.HomeViewModel" />
+
+        <variable
+            name="isLoadingCategories"
+            type="Boolean" />
+
+        <variable
+            name="isLoadingFoods"
+            type="Boolean" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/fragment_background">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{(isLoadingCategories||isLoadingFoods ) ?View.VISIBLE : View.GONE  , default = visible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fragment_background"
+            android:visibility="@{(isLoadingCategories||isLoadingFoods ) ? View.GONE : View.VISIBLE , default = visible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                tools:context=".views.fragmenets.HomeFragement">
+
+
+
+
+                <LinearLayout
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@drawable/non_selected_line"
+                    android:fontFamily="sans-serif-thin"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!--                <TextView-->
+                    <!--                    android:id="@+id/userNameTextView"-->
+                    <!--                    android:layout_width="0dp"-->
+                    <!--                    android:layout_weight="1"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_marginHorizontal="16dp"-->
+                    <!--                    android:fontFamily="sans-serif-condensed-medium"-->
+                    <!--                    android:text="Hi , Yahia"-->
+                    <!--                    android:layout_gravity="right"-->
+                    <!--                    android:textColor="@color/primaryOrange"-->
+                    <!--                    android:textSize="18sp"-->
+                    <!--                    android:textStyle="bold" />-->
+
+
+                    <!--                <TextView-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_marginHorizontal="16dp"-->
+                    <!--                    android:fontFamily="sans-serif-condensed-medium"-->
+                    <!--                    android:text="@string/jul_20"-->
+                    <!--                    android:textColor="@color/mBlack"-->
+                    <!--                    android:textSize="14sp"-->
+                    <!--                    android:textStyle="bold" />-->
+
+
+                </LinearLayout>
+
+
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/mImageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="8dp"
+                    android:padding="1dp"
+                    android:shadowColor="@color/primaryOrange"
+                    android:shadowDx="5"
+                    android:shadowDy="10"
+                    android:shadowRadius="15"
+                    app:iss_auto_cycle="true"
+                    app:iss_corner_radius="40"
+                    app:iss_delay="500"
+                    app:iss_period="1000"
+                    app:layout_constraintDimensionRatio="2:.9"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/date" />
+
+
+                <EditText
+                    android:id="@+id/Search_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/search_edit_text_bg"
+                    android:drawableRight="@drawable/search_icon_selector"
+                    android:drawablePadding="8dp"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="12dp"
+
+                    android:singleLine="true"
+                    android:textColor="@color/mBlack"
+                    android:textColorHint="@color/TextColor"
+                    android:textSize="17sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mImageSlider"
+                     />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoriesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:adapter="@{categoriesAdapter}"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="4dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Search_EditText"
+                    tools:listitem="@layout/category_item_container" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/foodsItemRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    android:clipToPadding="false"
+                    android:adapter="@{foodsAdapter}"
+                    android:layoutAnimation="@anim/food_recycler_view_anim"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    android:paddingVertical="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/categoriesRecyclerView"
+                    app:spanCount="2"
+                    tools:listitem="@layout/food_item_container" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

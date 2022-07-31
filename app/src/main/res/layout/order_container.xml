@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/tools"
+
+    >
+
+    <data>
+
+        <variable
+            name="order"
+            type="com.aplication.aquaruim.models.Order" />
+
+        <variable
+            name="orderTime"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/order_bg"
+        android:paddingVertical="16dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderItemsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="6dp"
+            android:adapter="@{order.orderItemsAdapter}"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/order_item_container" />
+
+
+        <RelativeLayout
+            android:id="@+id/orderAtRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/order_item_container_margin_bitween_Items"
+            android:paddingHorizontal="@dimen/layouts_in_orderItemMargin"
+            app:layout_constraintTop_toBottomOf="@id/orderIdRelativeLayout">
+
+            <TextView
+                android:id="@+id/orderedAtLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@string/order_time_text"
+                android:textSize="@dimen/labels_in_order_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/orderTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toEndOf="@+id/orderedAtLabel"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="right"
+                android:text="@{ order.orderTime}"
+                android:textAllCaps="true"
+                android:textColor="@color/TextColor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/orderIdRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/m16dp"
+            android:paddingHorizontal="@dimen/layouts_in_orderItemMargin"
+            app:layout_constraintTop_toBottomOf="@id/orderItemsRecyclerView">
+
+            <TextView
+                android:id="@+id/orderIdLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@string/order_idText"
+                android:textSize="@dimen/labels_in_order_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/orderIdTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toEndOf="@+id/orderIdLabel"
+                android:gravity="right"
+                android:text="@{`#`+Integer.toHexString(order.id)}"
+                android:textAllCaps="true"
+                android:textColor="@color/TextColor"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/orderItemAddressRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/order_item_container_margin_bitween_Items"
+            android:paddingHorizontal="@dimen/layouts_in_orderItemMargin"
+            app:layout_constraintTop_toBottomOf="@id/orderAtRelativeLayout">
+
+            <TextView
+                android:id="@+id/orderItemAddressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@string/address_text"
+                android:textSize="@dimen/labels_in_order_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/orderItemAddressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toEndOf="@+id/orderItemAddressLabel"
+                android:ellipsize="end"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="right"
+                android:maxLines="2"
+                android:text="@{order.address}"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/totalPriceRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/order_item_container_margin_bitween_Items"
+            android:paddingHorizontal="@dimen/layouts_in_orderItemMargin"
+            app:layout_constraintTop_toBottomOf="@id/orderItemAddressRelativeLayout">
+
+            <TextView
+                android:id="@+id/totalPriceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@string/total_price_label_text"
+                android:textSize="@dimen/labels_in_order_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalPriceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+
+                android:layout_marginLeft="12dp"
+                android:layout_toEndOf="@+id/totalPriceLabel"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="right"
+                android:text="@{Integer.toString(order.totalPrice) + ` DA`}"
+                android:textAllCaps="true"
+                android:textColor="@color/primaryOrange"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/orderStatusCl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/p8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/totalPriceRelativeLayout">
+
+
+            <ImageButton
+                android:id="@+id/status1Circle"
+                android:layout_width="@dimen/statusCircleSize"
+                android:layout_height="@dimen/statusCircleSize"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/selected_circle"
+                android:padding="6dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/statusLine1"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="center"
+                android:text=" order \n placed"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/status1Circle"
+                app:layout_constraintRight_toRightOf="@id/status1Circle"
+                app:layout_constraintTop_toBottomOf="@id/status1Circle" />
+
+
+            <View
+                android:id="@+id/statusLine1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_track_status_height"
+                android:layout_marginHorizontal="4dp"
+                android:background="@drawable/selected_line"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/status1Circle"
+                app:layout_constraintRight_toLeftOf="@id/status2Circle"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageButton
+                android:id="@+id/status2Circle"
+                android:layout_width="@dimen/statusCircleSize"
+                android:layout_height="@dimen/statusCircleSize"
+                android:background="@{order.status &gt; 2 ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
+                android:padding="6dp"
+                bind:layout_widthCircle2="@{order.status == 2 ? @dimen/currentStatusCircleSize :@dimen/statusCircleSize  }"
+                android:scaleType="fitXY"
+                android:src="@{order.status == 2 ? @drawable/ic_delivery_bike : order.status &lt; 2 ? @drawable/rounded_button_bg_r14 : @drawable/ic_true }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/statusLine1"
+                app:layout_constraintRight_toLeftOf="@id/statusLine2"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="center"
+                android:text=" order \n accepted"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/status2Circle"
+                app:layout_constraintRight_toRightOf="@id/status2Circle"
+                app:layout_constraintTop_toBottomOf="@id/status2Circle" />
+
+
+            <View
+                android:id="@+id/statusLine2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_track_status_height"
+                android:layout_marginHorizontal="4dp"
+                android:background="@{order.status &gt;= 3 ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/status2Circle"
+                app:layout_constraintRight_toLeftOf="@id/status3Circle"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageButton
+                android:id="@+id/status3Circle"
+                android:layout_width="@dimen/statusCircleSize"
+                android:layout_height="@dimen/statusCircleSize"
+                android:background="@{order.status &gt; 3 ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
+                android:padding="6dp"
+                android:scaleType="fitXY"
+                android:src="@{order.status == 3 ? @drawable/ic_chef : order.status &lt; 3 ? @drawable/rounded_button_bg_r14 : @drawable/ic_true }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                bind:layout_widthCircle3="@{order.status == 3 ? @dimen/currentStatusCircleSize :@dimen/statusCircleSize  }"
+                app:layout_constraintLeft_toRightOf="@id/statusLine2"
+                app:layout_constraintRight_toLeftOf="@id/statusLine3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="center"
+                android:text=" preparing \n order "
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/status3Circle"
+                app:layout_constraintRight_toRightOf="@id/status3Circle"
+                app:layout_constraintTop_toBottomOf="@id/status3Circle" />
+
+
+            <View
+                android:id="@+id/statusLine3"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_track_status_height"
+                android:layout_marginHorizontal="4dp"
+                android:background="@{order.status &gt;= 4 ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/status3Circle"
+                app:layout_constraintRight_toLeftOf="@id/status4Circle"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageButton
+                android:id="@+id/status4Circle"
+                android:layout_width="@dimen/statusCircleSize"
+                android:layout_height="@dimen/statusCircleSize"
+                android:background="@{order.status &gt; 4 ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
+                android:padding="6dp"
+                android:scaleType="fitXY"
+                android:src="@{order.status == 4 ? @drawable/ic_delivery_bike : order.status &lt; 4 ? @drawable/rounded_button_bg_r14 : @drawable/ic_true }"
+                android:textSize="@dimen/m16dp"
+                bind:layout_widthCircle4="@{order.status == 4 ? @dimen/currentStatusCircleSize:@dimen/statusCircleSize  }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/statusLine3"
+                app:layout_constraintRight_toLeftOf="@id/statusLine4"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="center"
+                android:text=" order \n on the way"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/status4Circle"
+                app:layout_constraintRight_toRightOf="@id/status4Circle"
+                app:layout_constraintTop_toBottomOf="@id/status4Circle" />
+
+
+            <View
+                android:id="@+id/statusLine4"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_track_status_height"
+                android:layout_marginHorizontal="4dp"
+                android:background="@{order.status &gt;= 5 ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/status4Circle"
+                app:layout_constraintRight_toLeftOf="@id/status5Circle"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/status5Circle"
+                android:layout_width="@dimen/statusCircleSize"
+                android:layout_height="@dimen/statusCircleSize"
+                android:layout_marginRight="12dp"
+                android:padding="6dp"
+                android:background="@{order.status &gt; 5 ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
+                android:src="@{order.status == 5 ? @drawable/delivered_food : order.status &lt; 5 ? @drawable/rounded_button_bg_r14 : @drawable/ic_true }"
+                android:scaleType="fitXY"
+                bind:layout_widthCircle5="@{order.status == 5 ? @dimen/currentStatusCircleSize :@dimen/statusCircleSize  }"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/statusLine4"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="center"
+                android:text=" order \n done "
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/status5Circle"
+                app:layout_constraintRight_toRightOf="@id/status5Circle"
+                app:layout_constraintTop_toBottomOf="@id/status5Circle" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/layouts_in_orderItemMargin"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/order_received_button_bg"
+            android:shadowRadius="0"
+            android:text="@string/order_received"
+            android:textColor="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/orderStatusCl" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

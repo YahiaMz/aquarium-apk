@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle" android:visible="true" xmlns:android="http://schemas.android.com/apk/res/android">
+ <corners android:bottomLeftRadius="@dimen/bottom_fragment_bg_border_radius"
+          android:bottomRightRadius="@dimen/bottom_fragment_bg_border_radius"
+     />
+    <solid android:color="@color/white" />
+</shape>

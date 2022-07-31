@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="cartItem"
+            type="com.aplication.aquaruim.models.CartItem" />
+
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:paddingVertical="4dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/food_item_container_bg"
+        android:paddingRight="8dp">
+
+
+        <ImageButton
+
+            android:id="@+id/cartItemImageView"
+            android:layout_width="@dimen/cartItemImageSize"
+            android:layout_height="@dimen/cartItemImageSize"
+            android:layout_marginVertical="6dp"
+            android:background="@drawable/rounded_button_bg_r14"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/pizza_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/cartItemImageView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/linearLayout"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/linearLayout"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/margin_bitween_cartitem_texts"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:maxLines="1"
+                     android:gravity="center_vertical|bottom"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="@{cartItem.food.name}"
+                    android:textColor="@color/TextColor"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/margin_bitween_cartitem_texts"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@{cartItem.foodSize == null ?  Integer.toString(cartItem.food.price) + ` DA` : Integer.toString(cartItem.foodSize.sizePrice) + ` DA`, default = ` DA` }"
+                    android:textColor="@color/primaryOrange"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:visibility="@{cartItem.foodSize == null ? View.GONE : View.VISIBLE , default = visible}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_bitween_cartitem_texts"
+
+                    >
+                    <TextView
+                        android:id="@+id/smallSizeButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/small_txt"
+                        android:textColor="@color/TextColor"
+                        android:fontFamily="@font/san_francisco_font"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/sizes_text_size"
+                        android:background="@{cartItem.foodSize.sizeName.equals(`small`) ? @drawable/size_item_in_cart_bg : @drawable/rounded_button_bg_r14  , default = @drawable/rounded_button_bg_r14}"
+                        />
+
+                    <TextView
+                        android:id="@+id/mediumSizeButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/medium"
+                        android:textColor="@color/TextColor"
+                        android:fontFamily="@font/san_francisco_font"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
+                        android:gravity="center"
+                        android:background="@{cartItem.foodSize.sizeName.equals(`medium`) ? @drawable/size_item_in_cart_bg : @drawable/rounded_button_bg_r14  , default = @drawable/rounded_button_bg_r14}"
+                        android:textSize="@dimen/sizes_text_size"
+                        />
+                    <TextView
+                        android:id="@+id/largeSizeButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/large_txt"
+                        android:textColor="@color/TextColor"
+                        android:fontFamily="@font/san_francisco_font"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
+                        android:gravity="center"
+                        android:background="@{cartItem.foodSize.sizeName.equals(`large`) ? @drawable/size_item_in_cart_bg : @drawable/rounded_button_bg_r14  , default = @drawable/rounded_button_bg_r14}"
+
+                        android:textSize="@dimen/sizes_text_size"
+                        />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/removeImageButton"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginRight="8dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/removeImageButton"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageButton
+                    android:id="@+id/addOneToQuantity"
+                    android:layout_width="42dp"
+                    android:layout_height="32dp"
+                    android:background="@android:color/transparent"
+
+                    android:paddingHorizontal="13dp"
+                    android:paddingVertical="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_plus_grey" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/change_quantity_button_bg"
+                    android:gravity="center"
+                    android:layout_marginVertical="4dp"
+                    android:maxLength="3"
+                    android:paddingTop="2dp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:text="@{Integer.toString( cartItem.quantity) , default = `50`}"
+                    android:textColor="@color/mBlack"
+                    android:textSize="15sp" />
+
+                <ImageButton
+                    android:id="@+id/minusOneToQuantity"
+                    android:layout_width="@dimen/change_quantity_btns_width"
+                    android:clickable="@{cartItem.quantity > 1 }"
+                    android:alpha="@{cartItem.quantity > 1 ? (float)1 : (float)0.3 ,default = .3 }"
+                    android:layout_height="32dp"
+                    android:background="@android:color/transparent"
+                    android:paddingHorizontal="13dp"
+                    android:paddingVertical="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_minus_round" />
+            </LinearLayout>
+
+
+            <ImageButton
+                android:id="@+id/removeImageButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="4dp"
+                android:background="@android:color/transparent"
+                android:padding="6dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_trash"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+       <variable
+           name="errorMessage"
+           type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="20sp"
+        android:background="@drawable/error_toast_bg"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/toastText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textSize="16sp"
+            android:fontFamily="@font/san_francisco_font"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            android:text="@{  errorMessage , default =`Something wrong !`}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            />
+        <ImageView
+
+            android:layout_width="@dimen/toast_icon_size"
+            android:layout_height="@dimen/toast_icon_size"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_resource_false"
+            app:layout_constraintTop_toTopOf="@id/toastText"
+            app:layout_constraintLeft_toRightOf="@id/toastText"
+            app:layout_constraintBottom_toBottomOf="@id/toastText"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
