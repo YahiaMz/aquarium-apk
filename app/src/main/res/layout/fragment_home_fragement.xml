@@ -22,22 +22,63 @@
             type="Boolean" />
 
         <variable
+            name="isThereAnSlides"
+            type="Boolean" />
+
+        <variable
             name="isLoadingFoods"
+            type="Boolean" />
+
+        <variable
+            name="isThereNetworkProblem"
             type="Boolean" />
 
         <import type="android.view.View" />
 
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/fragment_background">
+        android:background="@drawable/fragment_background"
+        tools:context=".views.fragmenets.HomeFragement"
+
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{isThereNetworkProblem  ? View.VISIBLE : View.GONE , default =gone}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:src="@drawable/no_net" />
+
+            <TextView
+                android:id="@+id/refreshNetwork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/m16dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@string/refresh"
+                android:textColor="@color/TextColor"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{(isLoadingCategories||isLoadingFoods ) ?View.VISIBLE : View.GONE  , default = visible}"
+            android:visibility="@{((isLoadingCategories||isLoadingFoods) &amp;&amp; !isThereNetworkProblem ) ?View.VISIBLE : View.GONE  , default = visible}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -47,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/fragment_background"
-            android:visibility="@{(isLoadingCategories||isLoadingFoods ) ? View.GONE : View.VISIBLE , default = visible}"
+            android:visibility="@{(isLoadingCategories||isLoadingFoods ) ? View.GONE : View.VISIBLE , default = gone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
 
@@ -58,73 +99,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
-                tools:context=".views.fragmenets.HomeFragement">
 
 
+                >
 
 
-                <LinearLayout
-                    android:id="@+id/date"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/mCardSlider"
                     android:layout_width="0dp"
-                    android:layout_height="5dp"
-                    android:layout_marginHorizontal="12dp"
-                    android:background="@drawable/non_selected_line"
-                    android:fontFamily="sans-serif-thin"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="8dp"
+                    app:cardBackgroundColor="@color/AntiFlashWhite"
+                    app:cardCornerRadius="@dimen/m16dp"
 
-                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintDimensionRatio="20:9"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <!--                <TextView-->
-                    <!--                    android:id="@+id/userNameTextView"-->
-                    <!--                    android:layout_width="0dp"-->
-                    <!--                    android:layout_weight="1"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_marginHorizontal="16dp"-->
-                    <!--                    android:fontFamily="sans-serif-condensed-medium"-->
-                    <!--                    android:text="Hi , Yahia"-->
-                    <!--                    android:layout_gravity="right"-->
-                    <!--                    android:textColor="@color/primaryOrange"-->
-                    <!--                    android:textSize="18sp"-->
-                    <!--                    android:textStyle="bold" />-->
 
+                    <ImageView
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/aquaruimlogo"
+                        android:visibility="@{isThereAnSlides ? View.GONE : View.VISIBLE , default = visible}" />
 
-                    <!--                <TextView-->
-                    <!--                    android:layout_width="wrap_content"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_marginHorizontal="16dp"-->
-                    <!--                    android:fontFamily="sans-serif-condensed-medium"-->
-                    <!--                    android:text="@string/jul_20"-->
-                    <!--                    android:textColor="@color/mBlack"-->
-                    <!--                    android:textSize="14sp"-->
-                    <!--                    android:textStyle="bold" />-->
-
-
-                </LinearLayout>
-
-
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/mImageSlider"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="8dp"
-                    android:padding="1dp"
-                    android:shadowColor="@color/primaryOrange"
-                    android:shadowDx="5"
-                    android:shadowDy="10"
-                    android:shadowRadius="15"
-                    app:iss_auto_cycle="true"
-                    app:iss_corner_radius="40"
-                    app:iss_delay="500"
-                    app:iss_period="1000"
-                    app:layout_constraintDimensionRatio="2:.9"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/date" />
+                    <com.denzcoskun.imageslider.ImageSlider
+                        android:id="@+id/mImageSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="1dp"
+                        android:shadowColor="@color/primaryOrange"
+                        android:visibility="@{!isThereAnSlides ? View.GONE : View.VISIBLE , default = gone}"
+                        app:iss_auto_cycle="true"
+                        app:iss_corner_radius="40"
+                        app:iss_delay="500"
+                        app:iss_period="1000" />
+                </androidx.cardview.widget.CardView>
 
 
                 <EditText
@@ -142,9 +155,8 @@
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:paddingVertical="10dp"
                     android:paddingHorizontal="12dp"
-
+                    android:paddingVertical="14dp"
                     android:singleLine="true"
                     android:textColor="@color/mBlack"
                     android:textColorHint="@color/TextColor"
@@ -152,8 +164,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/mImageSlider"
-                     />
+                    app:layout_constraintTop_toBottomOf="@id/mCardSlider" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -176,12 +187,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="16dp"
-                    android:clipToPadding="false"
                     android:adapter="@{foodsAdapter}"
+                    android:clipToPadding="false"
                     android:layoutAnimation="@anim/food_recycler_view_anim"
                     android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     android:paddingVertical="16dp"
+                    android:layout_marginHorizontal="4dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/categoriesRecyclerView"

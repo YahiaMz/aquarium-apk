@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">aquaruim</string>
+    <string name="app_name">Pizzeria Aquarium</string>
     <string name="home">Home</string>
     <string name="cart">Cart</string>
     <string name="orders">Orders</string>
@@ -10,20 +10,20 @@
     <string name="search">Search</string>
     <string name="jul_20"><u>jul , 20</u></string>
     <string name="checkout_text">Checkout</string>
-    <string name="small_txt">L</string>
-    <string name="medium">XL</string>
-    <string name="large_txt">XXL</string>
-    <string name="address_text">Address</string>
+    <string name="small_txt">S</string>
+    <string name="medium">M</string>
+    <string name="large_txt">L</string>
+    <string name="address_text">Address :</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="address_hint">enter your address</string>
     <string name="order_information_label">Order Information</string>
     <string name="subtotal_label_text">Subtotal</string>
     <string name="shipping_text">Shipping</string>
     <string name="total_text"><u> Total </u></string>
-    <string name="order_idText">Order Id</string>
+    <string name="order_idText">Order Id :</string>
     <string name="total_price_label_text">Total price</string>
     <string name="order_received">Order received</string>
-    <string name="order_time_text">Order Time</string>
+    <string name="order_time_text">Order Time :</string>
     <string name="no_order_text">No Order</string>
     <string name="loremIspumText">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
     <string name="add_to_cart">Add TO cart</string>
@@ -32,4 +32,10 @@
     <string name="search_text">Search</string>
     <string name="confim_password">confirm password</string>
     <string name="registerText">Register</string>
+    <string name="order_zone">Order Zone :</string>
+    <string name="are_you_sure_text">Are you sure ?</string>
+    <string name="no">No</string>
+    <string name="no_internet">No internet !</string>
+    <string name="refresh">Refresh</string>
+
 </resources>

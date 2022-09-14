@@ -15,9 +15,7 @@
             type="Integer"
             />
 
-        <variable
-            name="isBottomNvVisible"
-            type="Boolean" />
+
 
         <import type="android.view.View" />
     </data>
@@ -39,6 +37,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="1dp"
             app:layout_constraintBottom_toTopOf="@id/bBottomNavigationView"
             >
 
@@ -56,7 +55,7 @@
 
 
         <LinearLayout
-            android:visibility="@{isBottomNvVisible ? View.VISIBLE : View.GONE , default=visible}"
+            android:visibility="@{index &lt;= 5 ? View.VISIBLE : View.GONE , default=visible}"
             android:shadowColor="@color/primaryOrange"
             android:id="@+id/bBottomNavigationView"
             android:layout_width="match_parent"
@@ -136,14 +135,18 @@
                 android:layout_weight="1"
                 >
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profileItem"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintDimensionRatio="1:1"
-                    android:scaleType="fitXY"
-                    app:layout_constraintHeight_percent=".7"
-                    android:src="@drawable/profile_pic_ll"
+                    android:scaleType="centerCrop"
+                    android:padding="2dp"
+                    app:shapeAppearanceOverlay="@style/FullRoundedImageView"
+                    app:layout_constraintHeight_percent=".75"
+                    android:src="@drawable/user_profile"
+                    app:strokeColor="@color/primaryOrange"
+                    app:strokeWidth="@{index == 4 ? @dimen/p2dp : @dimen/p0dp , default = @dimen/p0dp}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

@@ -3,6 +3,7 @@ package com.aplication.aquaruim.viewmodels
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -18,36 +19,41 @@ import com.aplication.aquaruim.utils.API_URLS
 import org.json.JSONArray
 import org.json.JSONObject
 
-class FavouritesViewModel : AndroidViewModel   {
+class FavouritesViewModel(application: Application) : AndroidViewModel(application) {
 
     private var mutableFavourites : MutableLiveData<ArrayList<Food>> ?= null;
 
     @SuppressLint("StaticFieldLeak")
-    val fContext : Context ;
-    val favoritesRepository : FavoritesRepository;
+    val fContext : Context = application.applicationContext
+    val favoritesRepository : FavoritesRepository = FavoritesRepository.getInstance(fContext);
 
-     constructor(application: Application) : super(application) {
-        this.fContext = application.applicationContext;
-        this.favoritesRepository = FavoritesRepository.getInstance(fContext);
-    }
 
-     fun fetchFavourites ( user_Id : Int) {
+    val sharedPreferences: SharedPreferences =
+        fContext.getSharedPreferences("USER", Context.MODE_PRIVATE);
+    val user_Id = sharedPreferences.getInt("user_id" , -1)
+     fun fetchFavourites (  ) {
         if(mutableFavourites == null) {
             this.mutableFavourites = this.favoritesRepository.fetchFavouritesFoods(user_Id);
         }
     }
 
+    fun reFetchFavourites (  ) {
+            this.mutableFavourites = this.favoritesRepository.fetchFavouritesFoods(user_Id);
+    }
 
-     fun getMutableFavourites( ) : MutableLiveData<ArrayList<Food>> {
+
+
+
+    fun getMutableFavourites( ) : MutableLiveData<ArrayList<Food>> {
         return  this.mutableFavourites!!;
     }
 
-     fun fetchAgainToUpdate( user_Id: Int ){
-        this.mutableFavourites = this.favoritesRepository.fetchFavouritesFoods(user_Id);
+     fun fetchAgainToUpdate(  ){
+        this.mutableFavourites = this.favoritesRepository.fetchFavouritesFoods(this.user_Id);
     }
 
     fun likeFood(  food_Id : Int ) : MutableLiveData<Int> {
-        return this.favoritesRepository.likeFood(3 , food_Id);
+        return this.favoritesRepository.likeFood(this.user_Id , food_Id);
     }
 
 

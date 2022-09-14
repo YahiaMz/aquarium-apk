@@ -13,7 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:paddingVertical="4dp"
+        android:paddingVertical="10dp"
         android:layout_height="wrap_content"
         android:background="@drawable/food_item_container_bg"
         android:paddingRight="8dp">
@@ -97,7 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/small_txt"
-                        android:textColor="@color/TextColor"
+                        android:textColor="@{cartItem.foodSize.sizeName.equals(`small`) ?   @color/white : @color/TextColor , default=@color/TextColor}"
                         android:fontFamily="@font/san_francisco_font"
                         android:textStyle="bold"
                         android:paddingHorizontal="12dp"
@@ -112,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/medium"
-                        android:textColor="@color/TextColor"
+                        android:textColor="@{cartItem.foodSize.sizeName.equals(`medium`) ?   @color/white : @color/TextColor , default=@color/TextColor}"
                         android:fontFamily="@font/san_francisco_font"
                         android:textStyle="bold"
                         android:paddingHorizontal="12dp"
@@ -126,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/large_txt"
-                        android:textColor="@color/TextColor"
+                        android:textColor="@{cartItem.foodSize.sizeName.equals(`large`) ?   @color/white : @color/TextColor , default=@color/TextColor}"
                         android:fontFamily="@font/san_francisco_font"
                         android:textStyle="bold"
                         android:paddingHorizontal="12dp"

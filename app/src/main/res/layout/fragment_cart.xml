@@ -10,6 +10,10 @@
         <variable
             name="isCartEmpty"
             type="Boolean" />
+        <variable
+            name="isThereNetworkProblem"
+            type="Boolean" />
+
 
         <variable
             name="isLoading"
@@ -31,15 +35,46 @@
         tools:context=".views.fragmenets.CartFragment">
 
         <ImageView
-            android:layout_width="128dp"
+            android:layout_width="148dp"
             android:visibility="@{isCartEmpty?  View.VISIBLE : View.GONE , default = gone}"
-            android:layout_height="128dp"
+            android:layout_height="148dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/empty_cart"
+            android:src="@drawable/emptycart"
             />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{isThereNetworkProblem  ? View.VISIBLE : View.GONE , default =gone}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:src="@drawable/no_net" />
+
+            <TextView
+                android:id="@+id/refreshNetwork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/m16dp"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@string/refresh"
+                android:textColor="@color/TextColor"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -47,14 +82,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="@{isLoading?  View.VISIBLE : View.GONE , default = visible}"
+            android:visibility="@{isLoading ?  View.VISIBLE : View.GONE , default = visible}"
             app:layout_constraintBottom_toBottomOf="parent"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{(isCartEmpty || isLoading)? View.GONE : View.VISIBLE , default = gone}"
+            android:visibility="@{(isCartEmpty || isLoading || isThereNetworkProblem)? View.GONE : View.VISIBLE , default = gone}"
             >
 
 

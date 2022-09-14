@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/round_white_itemr18"
+        android:paddingVertical="20sp"
+        android:paddingHorizontal="20sp"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/dialogText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/are_you_sure_text"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:fontFamily="@font/san_francisco_font"
+            android:textColor="@color/TextColor"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/yesBtn"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_blue_item"
+            android:layout_marginTop="18sp"
+            android:textStyle="bold"
+            android:text="Yes"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialogText" />
+
+        <TextView
+            android:id="@+id/noBtn"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/yesBtn"
+            app:layout_constraintBottom_toBottomOf="@id/yesBtn"
+            android:textStyle="bold"
+            android:background="@drawable/no_bg"
+            android:text="@string/no"
+            android:layout_marginRight="@dimen/m16dp"
+            app:layout_constraintRight_toLeftOf="@id/yesBtn"
+            android:textColor="@color/mBlue"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@id/dialogText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

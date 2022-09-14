@@ -67,7 +67,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:layout_toEndOf="@+id/orderedAtLabel"
+                android:layout_toRightOf="@+id/orderedAtLabel"
                 android:fontFamily="@font/san_francisco_font"
                 android:gravity="right"
                 android:text="@{ order.orderTime}"
@@ -76,6 +76,47 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/orderAreaRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/order_item_container_margin_bitween_Items"
+            android:paddingHorizontal="@dimen/layouts_in_orderItemMargin"
+            app:layout_constraintTop_toBottomOf="@id/orderAtRelativeLayout">
+
+            <TextView
+                android:id="@+id/orderedAreaLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/san_francisco_font"
+                android:text="@string/order_zone"
+                android:textSize="@dimen/labels_in_order_textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/orderArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/orderedAreaLabel"
+                android:fontFamily="@font/san_francisco_font"
+                android:gravity="right"
+
+                android:text="@{order.zone}"
+                android:textAllCaps="true"
+                android:textColor="@color/TextColor"
+                android:textSize="16sp"
+
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
 
 
         <RelativeLayout
@@ -106,7 +147,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_toEndOf="@+id/orderIdLabel"
                 android:gravity="right"
-                android:text="@{`#`+Integer.toHexString(order.id)}"
+                android:text="@{`#`+Integer.toString(order.id % 200 + 1)}"
                 android:textAllCaps="true"
                 android:textColor="@color/TextColor"
                 android:textSize="17sp"
@@ -120,7 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/order_item_container_margin_bitween_Items"
             android:paddingHorizontal="@dimen/layouts_in_orderItemMargin"
-            app:layout_constraintTop_toBottomOf="@id/orderAtRelativeLayout">
+            app:layout_constraintTop_toBottomOf="@id/orderAreaRelativeLayout">
 
             <TextView
                 android:id="@+id/orderItemAddressLabel"
@@ -191,7 +232,8 @@
             android:id="@+id/orderStatusCl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/p8dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/m16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/totalPriceRelativeLayout">
@@ -201,7 +243,6 @@
                 android:id="@+id/status1Circle"
                 android:layout_width="@dimen/statusCircleSize"
                 android:layout_height="@dimen/statusCircleSize"
-                android:layout_marginLeft="12dp"
                 android:background="@drawable/selected_circle"
                 android:padding="6dp"
                 android:scaleType="fitXY"
@@ -242,15 +283,15 @@
                 android:id="@+id/status2Circle"
                 android:layout_width="@dimen/statusCircleSize"
                 android:layout_height="@dimen/statusCircleSize"
-                android:background="@{order.status &gt; 2 ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
+                android:background="@{order.status &gt; 1 || order.isReceived ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
                 android:padding="6dp"
-                bind:layout_widthCircle2="@{order.status == 2 ? @dimen/currentStatusCircleSize :@dimen/statusCircleSize  }"
                 android:scaleType="fitXY"
-                android:src="@{order.status == 2 ? @drawable/ic_delivery_bike : order.status &lt; 2 ? @drawable/rounded_button_bg_r14 : @drawable/ic_true }"
+                android:src="@{order.status > 1 || order.isReceived? @drawable/ic_true  : @drawable/watingicon }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/statusLine1"
                 app:layout_constraintRight_toLeftOf="@id/statusLine2"
                 app:layout_constraintTop_toTopOf="parent"
+                bind:layout_widthCircle2="@{order.status == 1 &amp;&amp; !order.isReceived? @dimen/currentStatusCircleSize :@dimen/statusCircleSize  }"
 
                 />
 
@@ -260,7 +301,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/san_francisco_font"
                 android:gravity="center"
-                android:text=" order \n accepted"
+                android:text="order in\nthe queue"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="@id/status2Circle"
                 app:layout_constraintRight_toRightOf="@id/status2Circle"
@@ -272,7 +313,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_track_status_height"
                 android:layout_marginHorizontal="4dp"
-                android:background="@{order.status &gt;= 3 ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
+                android:background="@{order.status &gt;= 2 || order.isReceived ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/status2Circle"
                 app:layout_constraintRight_toLeftOf="@id/status3Circle"
@@ -283,15 +324,15 @@
                 android:id="@+id/status3Circle"
                 android:layout_width="@dimen/statusCircleSize"
                 android:layout_height="@dimen/statusCircleSize"
-                android:background="@{order.status &gt; 3 ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
+                android:background="@{order.status &gt; 2 || order.isReceived ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
                 android:padding="6dp"
                 android:scaleType="fitXY"
-                android:src="@{order.status == 3 ? @drawable/ic_chef : order.status &lt; 3 ? @drawable/rounded_button_bg_r14 : @drawable/ic_true }"
+                android:src="@{order.status > 2 || order.isReceived ? @drawable/ic_true : order.status == 2 ? @drawable/preparing_order : @drawable/rounded_button_bg_r14 }"
                 app:layout_constraintBottom_toBottomOf="parent"
-                bind:layout_widthCircle3="@{order.status == 3 ? @dimen/currentStatusCircleSize :@dimen/statusCircleSize  }"
                 app:layout_constraintLeft_toRightOf="@id/statusLine2"
                 app:layout_constraintRight_toLeftOf="@id/statusLine3"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                bind:layout_widthCircle3="@{order.status == 2  &amp;&amp; !order.isReceived? @dimen/currentStatusCircleSize :@dimen/statusCircleSize  }" />
 
 
             <TextView
@@ -300,7 +341,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/san_francisco_font"
                 android:gravity="center"
-                android:text=" preparing \n order "
+                android:text="preparing\norder"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="@id/status3Circle"
                 app:layout_constraintRight_toRightOf="@id/status3Circle"
@@ -312,7 +353,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_track_status_height"
                 android:layout_marginHorizontal="4dp"
-                android:background="@{order.status &gt;= 4 ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
+                android:background="@{(order.status &gt;= 3 || order.isReceived) ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/status3Circle"
                 app:layout_constraintRight_toLeftOf="@id/status4Circle"
@@ -323,18 +364,19 @@
                 android:id="@+id/status4Circle"
                 android:layout_width="@dimen/statusCircleSize"
                 android:layout_height="@dimen/statusCircleSize"
-                android:background="@{order.status &gt; 4 ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
+                android:background="@{order.status &gt; 3 || order.isReceived ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
                 android:padding="6dp"
                 android:scaleType="fitXY"
-                android:src="@{order.status == 4 ? @drawable/ic_delivery_bike : order.status &lt; 4 ? @drawable/rounded_button_bg_r14 : @drawable/ic_true }"
+                android:src="@{(order.isReceived || order.status > 3) ? @drawable/ic_true : order.status == 3 ? @drawable/order_on_the_way : @drawable/rounded_button_bg_r14 }"
                 android:textSize="@dimen/m16dp"
-                bind:layout_widthCircle4="@{order.status == 4 ? @dimen/currentStatusCircleSize:@dimen/statusCircleSize  }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/statusLine3"
                 app:layout_constraintRight_toLeftOf="@id/statusLine4"
                 app:layout_constraintTop_toTopOf="parent"
+                bind:layout_widthCircle4="@{order.status == 3 &amp;&amp; !order.isReceived ? @dimen/currentStatusCircleSize:@dimen/statusCircleSize  }"
 
                 />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -342,8 +384,8 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/san_francisco_font"
                 android:gravity="center"
-                android:text=" order \n on the way"
-                android:textSize="14sp"
+                android:text=" order\non the way"
+                android:textSize="@dimen/status_label_ts"
                 app:layout_constraintLeft_toLeftOf="@id/status4Circle"
                 app:layout_constraintRight_toRightOf="@id/status4Circle"
                 app:layout_constraintTop_toBottomOf="@id/status4Circle" />
@@ -354,29 +396,27 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_track_status_height"
                 android:layout_marginHorizontal="4dp"
-                android:background="@{order.status &gt;= 5 ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
+                android:background="@{(order.isReceived || order.status == 4) ? @drawable/selected_line : @drawable/non_selected_line_track_status , default = @drawable/non_selected_line_track_status }"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/status4Circle"
                 app:layout_constraintRight_toLeftOf="@id/status5Circle"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
             <ImageButton
                 android:id="@+id/status5Circle"
                 android:layout_width="@dimen/statusCircleSize"
                 android:layout_height="@dimen/statusCircleSize"
-                android:layout_marginRight="12dp"
+                android:background="@{order.isReceived ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
                 android:padding="6dp"
-                android:background="@{order.status &gt; 5 ? @drawable/selected_circle : @drawable/non_selected_circle_track_status, default =@drawable/non_selected_circle_track_status }"
-                android:src="@{order.status == 5 ? @drawable/delivered_food : order.status &lt; 5 ? @drawable/rounded_button_bg_r14 : @drawable/ic_true }"
                 android:scaleType="fitXY"
-                bind:layout_widthCircle5="@{order.status == 5 ? @dimen/currentStatusCircleSize :@dimen/statusCircleSize  }"
-                android:textSize="18sp"
+                android:src="@{order.isReceived? @drawable/ic_true : order.status == 4 ? @drawable/order_done : @drawable/rounded_button_bg_r14 }"
+                android:textSize="@dimen/m16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/statusLine4"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-
-                />
+                bind:layout_widthCircle5="@{(order.status == 4 &amp;&amp; !order.isReceived) ? @dimen/currentStatusCircleSize:@dimen/statusCircleSize  }" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -384,7 +424,7 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/san_francisco_font"
                 android:gravity="center"
-                android:text=" order \n done "
+                android:text=" order\nreceived"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="@id/status5Circle"
                 app:layout_constraintRight_toRightOf="@id/status5Circle"
@@ -394,15 +434,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
+            android:id="@+id/ReceiveOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/layouts_in_orderItemMargin"
             android:layout_marginTop="16dp"
-            android:background="@drawable/order_received_button_bg"
+            android:background="@{order.isReceived ? @drawable/order_received_outline : @drawable/order_received_button_bg , default = @drawable/order_received_button_bg  }"
             android:shadowRadius="0"
             android:text="@string/order_received"
-            android:textColor="@color/white"
-
+            android:textColor="@{order.isReceived? @color/grialGreen : @color/white , default = @color/white}"
             app:layout_constraintTop_toBottomOf="@id/orderStatusCl" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

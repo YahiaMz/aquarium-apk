@@ -1,9 +1,7 @@
 package com.aplication.aquaruim.views.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.aplication.aquaruim.R
@@ -11,7 +9,6 @@ import com.aplication.aquaruim.databinding.ActivityFoodDetailsScreenBinding
 import com.aplication.aquaruim.models.Food
 import com.aplication.aquaruim.utils.API_URLS
 import com.aplication.aquaruim.viewmodels.CartViewModel
-import com.aplication.aquaruim.viewmodels.HomeViewModel
 import com.aplication.aquaruim.views.customViews.SuccessToast
 import com.squareup.picasso.Picasso
 
@@ -33,10 +30,17 @@ class FoodDetailsScreen : AppCompatActivity() {
         this.screenDetailsBinding.foodSizeIndex = 0;
         this.comingData = intent.extras!!
         setFoodInfo();
+        oNmBackPressed();
         changeQuantity();
         changeSizeTo()
         addToCart()
 
+    }
+
+    fun oNmBackPressed() {
+        this.screenDetailsBinding.backFromDetails.setOnClickListener {
+            finish();
+        }
     }
 
     private fun setFoodInfo() {
@@ -75,24 +79,29 @@ class FoodDetailsScreen : AppCompatActivity() {
 
     private fun addToCart() {
 
-        this.screenDetailsBinding.addToCartFromDetails.setOnClickListener {
 
+        this.screenDetailsBinding.addToCartFromDetails.setOnClickListener {
+            this.screenDetailsBinding.isAddingToCart = true
             var foodSize_Id = -1;
             if (foodObj.sizes.size != 0) foodSize_Id =
                 foodObj.sizes[this.screenDetailsBinding.foodSizeIndex!!].id
-            this.cartViewModel.addItemToCart(3,
+            this.cartViewModel.addItemToCart(
                 foodObj.id,
                 foodSize_Id,
                 this.screenDetailsBinding.quantity!!).observe(this) {
-                if (it != null && it == true) {
-                    val message = if (this.screenDetailsBinding.quantity!! == 1) "added ${this.screenDetailsBinding.quantity!!} item to cart" else "added ${this.screenDetailsBinding.quantity!!} items to cart";
-                    SuccessToast.ShowSuccessToast(message,
-                        this);
+                if (it != null) {
+                    if (it) {
+                        val message =
+                            if (this.screenDetailsBinding.quantity!! == 1) "added ${this.screenDetailsBinding.quantity!!} item to cart" else "added ${this.screenDetailsBinding.quantity!!} items to cart";
+                        SuccessToast.ShowSuccessToast(message,
+                            this);
+                        this.cartViewModel.updateCartItems().observe(this) {
 
-
-                    this.cartViewModel.updateCartItems(3).observe(this) {
-
+                        }
                     }
+
+                    screenDetailsBinding.isAddingToCart =false
+
                 }
             };
 

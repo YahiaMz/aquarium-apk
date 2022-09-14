@@ -54,8 +54,8 @@ fun setLayoutSizeCircle4(view: View, size: Float) {
 
     layoutParams.topToTop = parent;
     layoutParams.bottomToBottom = parent;
+    layoutParams.rightToLeft = R.id.statusLine4
     layoutParams.leftToRight = R.id.statusLine3;
-    layoutParams.rightToRight = R.id.statusLine4
 
     view.setLayoutParams(layoutParams)
 }
@@ -68,13 +68,11 @@ fun setLayoutSizeCircle5(view: View, size: Float) {
 
     layoutParams.topToTop = parent;
     layoutParams.bottomToBottom = parent;
-    layoutParams.rightToRight = parent;
-    layoutParams.leftToRight = R.id.statusLine4
+    layoutParams.rightToRight = parent
+    layoutParams.leftToRight = R.id.statusLine4;
 
-    layoutParams.rightMargin  = view.context.resources.getDimension(R.dimen.p8dp).toInt();
     view.setLayoutParams(layoutParams)
 }
-
 
 
 

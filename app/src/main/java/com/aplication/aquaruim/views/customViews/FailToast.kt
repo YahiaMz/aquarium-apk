@@ -19,7 +19,7 @@ class FailToast {
             failToastBinding.errorMessage = message;
 
             mToast.view = failToastBinding.root;
-            mToast.duration = Toast.LENGTH_SHORT
+            mToast.duration = Toast.LENGTH_LONG
             mToast.setGravity(Gravity.BOTTOM , 0 , 150 );
             mToast.show();
 

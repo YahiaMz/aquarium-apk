@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="isEditMode"
+            type="Boolean" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isUpdatingUser"
+            type="Boolean" />
+
+        <variable
+            name="lastName"
+            type="String" />
+
+        <variable
+            name="initPassword"
+            type="String" />
+
+
+        <variable
+            name="userName"
+            type="String" />
+
+        <variable
+            name="phoneNumber"
+            type="String" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".views.fragmenets.UserFragment">
+
+
+        <ScrollView
+            android:id="@+id/scrollUserInfo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/updateUserFL"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/m16dp"
+                android:layout_marginBottom="@dimen/p8dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageButton
+                    android:id="@+id/logoutBtn"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_logout"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Switch
+                    android:id="@+id/editModeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:text="Edit mode "
+                    android:textColor="@color/TextColor"
+                    app:layout_constraintBottom_toBottomOf="@+id/logoutBtn"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/logoutBtn" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/updateUserImage"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="24dp"
+                    android:clickable="@{isEditMode, default = false}"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_profile"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editModeSwitch"
+                    app:layout_constraintWidth_percent=".45"
+                    app:shapeAppearanceOverlay="@style/FullRoundedImageView" />
+
+                <TextView
+                    android:id="@+id/addImageTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/p8dp"
+                    android:gravity="center"
+                    android:clickable="@{isEditMode, default = false}"
+                    android:text="+Add image"
+                    android:textColor="#0050F1"
+                    app:layout_constraintTop_toBottomOf="@id/updateUserImage" />
+
+
+                <EditText
+                    android:id="@+id/updateName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/edit_text_address_bg"
+                    android:focusable="@{isEditMode}"
+                    android:textIsSelectable="@{isEditMode}"
+                    android:fontFamily="@font/san_francisco_font"
+                    android:hint="Enter your name"
+                    android:imeOptions="actionDone"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:singleLine="true"
+                    android:text="@{userName}"
+                    app:layout_constraintTop_toBottomOf="@id/addImageTv" />
+
+
+                <EditText
+                    android:id="@+id/updateFamilyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginbitweenprfileitems"
+                    android:background="@drawable/edit_text_address_bg"
+                    android:focusable="@{isEditMode}"
+                    android:textIsSelectable="@{isEditMode}"
+
+                    android:fontFamily="@font/san_francisco_font"
+                    android:hint="Enter your family name"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:singleLine="true"
+                    android:text="@{lastName}"
+                    app:layout_constraintTop_toBottomOf="@id/updateName" />
+
+                <EditText
+                    android:id="@+id/UpdatePhoneNumberEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginbitweenprfileitems"
+                    android:background="@drawable/edit_text_address_bg"
+                    android:drawableLeft="@drawable/phone_icon_selector"
+                    android:drawablePadding="8dp"
+                    android:focusable="@{isEditMode}"
+                    android:textIsSelectable="@{isEditMode}"
+
+                    android:fontFamily="@font/san_francisco_font"
+                    android:hint="Enter your phone number"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:singleLine="true"
+                    android:text="@{phoneNumber}"
+                    app:layout_constraintTop_toBottomOf="@id/updateFamilyName" />
+
+
+                <EditText
+                    android:id="@+id/updatePasswordNumberEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginbitweenprfileitems"
+                    android:layout_marginBottom="32dp"
+                    android:background="@drawable/edit_text_address_bg"
+                    android:drawableStart="@drawable/lock_icon_selector"
+                    android:drawableEnd="@drawable/ic_visibility_off"
+                    android:drawablePadding="8dp"
+                    android:focusable="@{isEditMode}"
+                    android:textIsSelectable="@{isEditMode}"
+
+                    android:fontFamily="@font/san_francisco_font"
+                    android:hint="Enter your new password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:singleLine="true"
+                    android:text="@{initPassword}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/UpdatePhoneNumberEt" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <FrameLayout
+            android:id="@+id/updateUserFL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{isEditMode ? View.VISIBLE : View.GONE , default = gone}"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
+            <Button
+                android:id="@+id/updateUserBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button_bg_r14"
+                android:backgroundTint="@color/primaryOrange"
+                android:paddingVertical="16dp"
+                android:text="Update"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="@{isUpdatingUser ? View.GONE : View.VISIBLE , default = visible}" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{isUpdatingUser ? View.VISIBLE : View.GONE, default = gone}" />
+
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

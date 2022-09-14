@@ -13,6 +13,7 @@
    <color name="primaryOrange" >#FF602E</color>
     <color name="LightOrange" >#50FF602E</color>
     <color name="tooLightOrange" >#10FF602E</color>
+    <color name="tooLightOrangeForOtp" >#10FF602E</color>
     <color name="foodItemContainerBgColor">#F5F5F5</color>
     <color name="AntiFlashWhite">#F1F0F0</color>
     <color name="BottomNavigationViewColor">#F0F0F0</color>
@@ -20,7 +21,7 @@
     <color name="SilverColor">#C0A6A6</color>
     <color name="TextColor">#6F7A8E</color>
     <color name="borderColor">#30BAC0CD</color>
-    <color name="nonSelectedIconColor">#A09B9B</color>
+    <color name="nonSelectedIconColor">#9B9B9B</color>
     <color name="selectedIconColor">#FF602E</color>
     <color name="red">#FF0000</color>
     <color name="search_edit_bg_color">#F5F5F5</color>
@@ -28,6 +29,7 @@
     <color name="successToastGreen">#47c772</color>
     <color name="size_text_bg_color">#3080FF18</color>
     <color name="outline_primary_color">#E96840</color>
+    <color name="mBlue">#0530FF</color>
 
 
 </resources>

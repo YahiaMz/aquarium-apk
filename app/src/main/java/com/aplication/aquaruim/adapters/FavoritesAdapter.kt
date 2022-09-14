@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.aplication.aquaruim.databinding.FavouritesFoodItemContainerBinding
-import com.aplication.aquaruim.databinding.FoodItemContainerBinding
 import com.aplication.aquaruim.interfaces.IonAddItemToCart
+import com.aplication.aquaruim.interfaces.IremoveItemFromFavourites
 import com.aplication.aquaruim.models.Food
 import com.aplication.aquaruim.utils.API_URLS
 import com.squareup.picasso.Picasso
@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso
 class FavoritesAdapter public constructor(
     var favoriteFoods: ArrayList<Food>,
     public val onAddBtnClicked: IonAddItemToCart,
+    public val iDislikeItem : IremoveItemFromFavourites
 ) : RecyclerView.Adapter<FavoritesAdapter.FavoriteFoodsViewHolder>() {
 
     var layoutInflater: LayoutInflater? = null;
@@ -26,9 +27,7 @@ class FavoritesAdapter public constructor(
             itemBinding.cFood = food;
             Picasso.get().load(API_URLS.FOOD_IMAGES_URL + food.imageUrl)
                 .into(itemBinding.favouriteFoodItemImageView);
-            this.itemBinding.addOneToCartBtnFromFavourites.setOnClickListener {
 
-            }
         }
 
 
@@ -54,7 +53,14 @@ class FavoritesAdapter public constructor(
         val food = favoriteFoods[position];
         holder.bind(food)
         holder.itemBinding.addOneToCartBtnFromFavourites.setOnClickListener {
-            this.onAddBtnClicked.onAddItemCartBtnClicked(food = food);
+            if(food.isAddingItem == false) {
+                food.isAddingItem = true
+                notifyItemChanged(position)
+                this.onAddBtnClicked.onAddItemCartBtnClicked(food = food, position = position);
+            }
+        }
+        holder.itemBinding.dislikeFoodButton.setOnClickListener {
+            this.iDislikeItem.removeItemFromFavorites(food.id , position )
         }
     }
 

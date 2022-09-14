@@ -3,43 +3,60 @@ package com.aplication.aquaruim.viewmodels
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.aplication.aquaruim.models.Order
+import com.aplication.aquaruim.network.Responses.FetchOrdersResponse
 import com.aplication.aquaruim.repositories.OrdersRepository
 
-class OrdersViewModel public constructor( application: Application): AndroidViewModel(application){
+class OrdersViewModel constructor(application: Application) : AndroidViewModel(application) {
     @SuppressLint("StaticFieldLeak")
-    val mContext : Context = application.applicationContext;
+    val mContext: Context = application.applicationContext;
     val mOrdersRepository = OrdersRepository.getInstance(mContext);
 
+    val sharedPreferences: SharedPreferences =
+        mContext.getSharedPreferences("USER", Context.MODE_PRIVATE);
+    val user_Id = sharedPreferences.getInt("user_id", -1);
+    val token = sharedPreferences.getString("token", "no Token");
 
-    private var mMutableOrders : MutableLiveData<ArrayList<Order>> ?=null;
+
+    private var mMutableOrders: MutableLiveData<FetchOrdersResponse> = MutableLiveData(null);
 
 
-    public fun placeOrder(userId : Int , address: String , orderPhoneNumber : String) : MutableLiveData<Boolean> {
-       return this.mOrdersRepository.placeOrder(userId , address , orderPhoneNumber);
+    public fun placeOrder(
+        zone: String,
+        address: String,
+        orderPhoneNumber: String,
+    ): MutableLiveData<Boolean> {
+        return this.mOrdersRepository.placeOrder(this.user_Id,
+            zone,
+            address,
+            orderPhoneNumber,
+            token = token.toString());
     }
 
-    public fun fetchUserOrders( user_Id : Int ) : MutableLiveData<ArrayList<Order>> {
-        if(this.mMutableOrders == null) {
-            this.mOrdersRepository.fetchOrdersOfUser(user_Id);
-            this.mMutableOrders = this.mOrdersRepository.mutableOrders;
+    fun fetchUserOrders(): MutableLiveData<FetchOrdersResponse> {
+        if (this.mMutableOrders.value == null) {
+            this.mMutableOrders = this.mOrdersRepository.fetchOrdersOfUser(this.user_Id, token);
         }
         return this.mMutableOrders!!;
     }
 
-    public fun  updateOrders(user_Id : Int) {
-        this.mOrdersRepository.fetchOrdersOfUser(user_Id)
-    }
 
-    public fun getMutableOrders()  : MutableLiveData<ArrayList<Order>> {
-        return this.mMutableOrders!!;
+    fun orderReceived(orderId: Int): MutableLiveData<Boolean> {
+        return this.mOrdersRepository.ReceiveOrder(orderId , token.toString())
     }
 
 
+    fun getMutableOrders(): MutableLiveData<FetchOrdersResponse> {
+        return this.mMutableOrders;
+    }
 
-
+    fun reFetchOrders(): MutableLiveData<FetchOrdersResponse> {
+        var rMutableOrders = this.mOrdersRepository.fetchOrdersOfUser(user_Id, token)
+        this.mMutableOrders = rMutableOrders;
+        return rMutableOrders;
+    }
 
 
 }

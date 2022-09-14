@@ -2,6 +2,7 @@ package com.aplication.aquaruim.views.fragmenets
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.aplication.aquaruim.R
 import com.aplication.aquaruim.adapters.CategoriesAdapter
 import com.aplication.aquaruim.adapters.FoodsAdapter
@@ -20,10 +20,13 @@ import com.aplication.aquaruim.interfaces.IonCategorySelected
 import com.aplication.aquaruim.interfaces.IonFoodItemClicked
 import com.aplication.aquaruim.models.Category
 import com.aplication.aquaruim.models.Food
+import com.aplication.aquaruim.utils.API_URLS
+import com.aplication.aquaruim.utils.MResponseStatus
 import com.aplication.aquaruim.viewmodels.CartViewModel
 import com.aplication.aquaruim.viewmodels.FavouritesViewModel
 import com.aplication.aquaruim.viewmodels.HomeViewModel
 import com.aplication.aquaruim.views.activities.FoodDetailsScreen
+import com.aplication.aquaruim.views.customViews.FailToast
 import com.aplication.aquaruim.views.customViews.SuccessToast
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
@@ -35,7 +38,6 @@ class HomeFragement : Fragment(), IonAddItemToCart, IonCategorySelected, IonFood
     val homeViewModel: HomeViewModel by activityViewModels()
     val cartViewModel: CartViewModel by activityViewModels();
     val favouritesViewModel: FavouritesViewModel by activityViewModels()
-    lateinit var foodAdapter: FoodsAdapter;
     var allFoods = ArrayList<Food>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,18 +45,16 @@ class HomeFragement : Fragment(), IonAddItemToCart, IonCategorySelected, IonFood
     }
 
     private fun fillImagesOfSlider() {
-        val slides = ArrayList<SlideModel>();
-
-        slides.add(SlideModel("https://img.freepik.com/photos-premium/pizza-au-pepperoni-isole-blanc_317111-21.jpg?w=996",
-            scaleType = ScaleTypes.FIT));
-        slides.add(SlideModel("https://img.freepik.com/photos-gratuite/vue-dessus-pizza-au-pepperoni-saucisses-aux-champignons-poivron-olive-mais-bois-noir_141793-2158.jpg?w=1380&t=st=1659305608~exp=1659306208~hmac=b3ed376e75f61df32945fa25c8fcd1e2dc8b8eed5ca9f75b7394951986904bd1",
-            scaleType = ScaleTypes.CENTER_CROP));
-        slides.add(SlideModel("https://aflaomarket.com/wp-content/uploads/2021/11/burger.jpg?v=d02e7b29555a",
-            ScaleTypes.FIT))
-        slides.add(SlideModel("https://popmenucloud.com/cdn-cgi/image/width=1920,height=1920,format=auto,fit=scale-down/wmzltkrx/71623eb0-5357-4fc4-8759-167961cf0dbf.jpg",
-            ScaleTypes.FIT))
-
-        homeFragmentBinding.mImageSlider.setImageList(slides);
+        this.homeViewModel.mutableSlides.observe(viewLifecycleOwner) {
+            if (it != null) {
+                val slides = ArrayList<SlideModel>();
+                for (x in 0 until it.size) {
+                    slides.add(SlideModel(API_URLS.SLIDES_IMAGES_URL + it[x], ScaleTypes.FIT));
+                }
+                this.homeFragmentBinding.isThereAnSlides = slides.isNotEmpty()
+                this.homeFragmentBinding.mImageSlider.setImageList(slides);
+            }
+        }
     }
 
     override fun onCreateView(
@@ -62,51 +62,75 @@ class HomeFragement : Fragment(), IonAddItemToCart, IonCategorySelected, IonFood
         savedInstanceState: Bundle?,
     ): View {
         this.homeFragmentBinding = FragmentHomeFragementBinding.inflate(inflater, container, false);
+        this.homeFragmentBinding.isThereNetworkProblem = false
+
         fillImagesOfSlider();
         observeFoods()
-        this.homeViewModel.showBottomNavigationView.value = true;
         watchCategories();
         onSearchClicked();
+        onRefreshClicked()
+
         return this.homeFragmentBinding.root
     }
 
     private fun watchCategories() {
         this.homeFragmentBinding.isLoadingCategories = true;
+        this.homeFragmentBinding.isThereNetworkProblem= false;
         this.homeViewModel.categoriesMutableLiveData?.observe(viewLifecycleOwner) {
             if (it != null) {
-                val categoriesAl = ArrayList<Category>();
-                categoriesAl.add(Category(0, "", "all.png"))
-                categoriesAl.addAll(it);
-                this.homeFragmentBinding.categoriesAdapter = CategoriesAdapter(this, categoriesAl)
-                this.homeFragmentBinding.isLoadingCategories = false
+                if (it.status == MResponseStatus.SUCCESS_RESPONSE) {
+                    val categoriesAl = ArrayList<Category>();
+                    categoriesAl.add(Category(0, "", "all.png"))
+                    categoriesAl.addAll(it.categories!!);
+                    this.homeFragmentBinding.categoriesAdapter =
+                        CategoriesAdapter(this, categoriesAl)
+                    this.homeFragmentBinding.isThereNetworkProblem = it.categories.isEmpty();
+                    this.homeFragmentBinding.isLoadingCategories = false
+                    this.homeFragmentBinding.isThereNetworkProblem = false;
+                } else if (it.status == MResponseStatus.NO_INTERNET) {
+                    this.homeFragmentBinding.isThereNetworkProblem = true;
+                }
+
             }
         }
     }
-
-
     private fun observeFoods() {
         this.homeFragmentBinding.isLoadingFoods = true;
-        this.homeViewModel.foodsMutableLiveData?.observe(viewLifecycleOwner) {
+        this.homeFragmentBinding.isThereNetworkProblem= false;
+        this.homeViewModel.foodsMutableLiveData.observe(viewLifecycleOwner) {
 
             if (it != null) {
-                this.homeFragmentBinding.foodsAdapter = FoodsAdapter(it, this, this, this);
-                this.homeFragmentBinding.isLoadingFoods = false;
-                this.homeFragmentBinding.foodsItemRecyclerView.scheduleLayoutAnimation();
-
-                allFoods = it;
+                if (it.status == MResponseStatus.SUCCESS_RESPONSE) {
+                    this.homeFragmentBinding.foodsAdapter =
+                        FoodsAdapter(it.foods!!, this, this, this);
+                    this.homeFragmentBinding.isLoadingFoods = false;
+                    this.homeFragmentBinding.foodsItemRecyclerView.scheduleLayoutAnimation();
+                    allFoods = it.foods;
+                } else if (it.status == MResponseStatus.NO_INTERNET) {
+                    this.homeFragmentBinding.isThereNetworkProblem = true
+                } else {
+                    FailToast.showFailToast("Something wrong", requireContext())
+                }
             }
         };
     }
 
-    override fun onAddItemCartBtnClicked(food: Food) {
-        this.cartViewModel.addItemToCart(3,
+    override fun onAddItemCartBtnClicked(food: Food, position: Int) {
+
+        this.cartViewModel.addItemToCart(
             food.id,
             if (food.sizes.size != 0) food.sizes[0].id else -1,
             1).observe(viewLifecycleOwner) {
-            if (it) {
-                cartViewModel.updateCartItems(3);
-                cartViewModel.cartCount.value = cartViewModel.cartCount.value!! + 1;
-                SuccessToast.ShowSuccessToast("item added with success ", context!!);
+            if (it!=null) {
+                if(it){
+                    cartViewModel.updateCartItems();
+                    cartViewModel.cartCount.value = cartViewModel.cartCount.value!! + 1;
+                    SuccessToast.ShowSuccessToast("item added with success ", context!!);
+                }
+
+                this.homeFragmentBinding.foodsAdapter?.foods!![position].isAddingItem = false
+                this.homeFragmentBinding.foodsAdapter?.notifyItemChanged(position);
+
             }
         };
 
@@ -150,6 +174,7 @@ class HomeFragement : Fragment(), IonAddItemToCart, IonCategorySelected, IonFood
                     this.homeFragmentBinding.foodsAdapter?.foods!![pos].isLiked = false;
                     this.homeFragmentBinding.foodsAdapter?.notifyItemChanged(pos)
                 }
+                this.favouritesViewModel.reFetchFavourites()
             }
         }
     }
@@ -157,14 +182,27 @@ class HomeFragement : Fragment(), IonAddItemToCart, IonCategorySelected, IonFood
     private fun onSearchClicked() {
         this.homeFragmentBinding.SearchEditText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                this.homeViewModel.showBottomNavigationView.value = false;
-                this.homeViewModel.textToSearch = this.homeViewModel.textToSearch
+                this.cartViewModel.mFragmentIndex.value = 7;
+                this.homeViewModel.textToSearch =
+                    this.homeFragmentBinding.SearchEditText.text.toString()
                 activity!!.supportFragmentManager.beginTransaction()
                     .replace(R.id.mainFrameLayout, SearchFragment()).commit()
                 return@OnEditorActionListener true
             }
             false
         })
+    }
+
+    private fun onRefreshClicked() {
+        this.homeFragmentBinding.refreshNetwork.setOnClickListener {
+            this.homeViewModel.fetchCategories();
+            this.homeViewModel.fetchFoods()
+            this.homeViewModel.fetchSlides()
+
+            watchCategories();
+            observeFoods();
+            fillImagesOfSlider();
+        }
     }
 
 

@@ -1,17 +1,17 @@
 package com.aplication.aquaruim.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.aplication.aquaruim.R
 import com.aplication.aquaruim.databinding.OrderContainerBinding
+import com.aplication.aquaruim.interfaces.IReceiveOrder
 import com.aplication.aquaruim.models.Order
 
-class OrderAdapter public constructor(val orders: ArrayList<Order>) :
+class OrderAdapter public constructor(
+    val orders: ArrayList<Order>,
+    val iReceivedOrder: IReceiveOrder,
+) :
     RecyclerView.Adapter<OrderAdapter.OrderHolder>() {
 
 
@@ -24,11 +24,11 @@ class OrderAdapter public constructor(val orders: ArrayList<Order>) :
         public fun bind(order: Order) {
 
 
-            val layoutParams : ConstraintLayout.LayoutParams =
+            val layoutParams: ConstraintLayout.LayoutParams =
                 ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0, 16 , 0 , 16);
-            itemBinding.root.layoutParams =  layoutParams;
+            layoutParams.setMargins(0, 16, 0, 16);
+            itemBinding.root.layoutParams = layoutParams;
 
 
             itemBinding.order = order;
@@ -46,18 +46,25 @@ class OrderAdapter public constructor(val orders: ArrayList<Order>) :
         this.orderContainerBinding = OrderContainerBinding.inflate(layoutInflater!!);
         return OrderHolder(this.orderContainerBinding);
 
+
     }
 
     override fun onBindViewHolder(holder: OrderHolder, position: Int) {
-        val food = orders[position];
-        holder.bind(food)
+        val order = orders[position];
+        holder.bind(order)
+        this.orderContainerBinding.ReceiveOrder.setOnClickListener {
+            if (!order.isReceived) {
+                this.iReceivedOrder.onReceiveOrder(
+                    order.id,
+                    position
+                )
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return this.orders.size
     }
-
-
 
 
 }
